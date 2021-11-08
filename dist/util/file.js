@@ -56,23 +56,23 @@ exports.getScriptName = getScriptName;
 /**
 * Downloads the current drawing as an svg file.
 */
-function download(id, filename, styleSheets) {
+function download(id, filename) {
     let svg = document.getElementById(id).firstChild;
     let styleSheet = null;
-    for (let i = 0; i < styleSheets.length; i += 1) {
+    for (let i = 0; i < document.styleSheets.length; i += 1) {
         if (
-          styleSheets[i] !== null &&
-          styleSheets[i].href === null &&
-          styleSheets[i].cssRules !== null &&
-          styleSheets[i].cssRules.length > 2
+          document.styleSheets[i] !== null &&
+          document.styleSheets[i].href === null &&
+          document.styleSheets[i].cssRules !== null &&
+          document.styleSheets[i].cssRules.length > 2
         ) {
-          for (let j = 0; j < styleSheets[i].cssRules.length; i += 1) {
+          for (let j = 0; j < document.styleSheets[i].cssRules.length; i += 1) {
             if (
-              styleSheets[i].cssRules[j].cssText
+              document.styleSheets[i].cssRules[j].cssText
                 .toLowerCase()
                 .includes('hatch')
             ) {
-              styleSheet = styleSheets[i];
+              styleSheet = document.styleSheets[i];
               break;
             }
           }
