@@ -60,17 +60,15 @@ function download(id, filename) {
     let svg = document.getElementById(id).firstChild;
     let styleSheet = null;
     for (let i = 0; i < document.styleSheets.length; i += 1) {
+        const tempStyleSheet = document.styleSheets[i];
         if (
-          document.styleSheets[i] !== null &&
-          document.styleSheets[i].href === null &&
-          document.styleSheets[i].cssRules !== null &&
-          document.styleSheets[i].cssRules.length > 2
+          tempStyleSheet !== null &&
+          tempStyleSheet.href === null &&
+          tempStyleSheet.cssRules !== null
         ) {
-          for (let j = 0; j < document.styleSheets[i].cssRules.length; i += 1) {
+          if (tempStyleSheet.cssRules[0]) {
             if (
-              document.styleSheets[i].cssRules[j].cssText
-                .toLowerCase()
-                .includes('hatch')
+              tempStyleSheet.cssRules[0].cssText.toLowerCase().includes('hatch')
             ) {
               styleSheet = document.styleSheets[i];
               break;
@@ -81,13 +79,12 @@ function download(id, filename) {
     let style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
     style.type = "text/css";
     let css = "";
-    for (let i = 0; i < styleSheet.rules.length; i++) {
-        let rule = styleSheet.rules[i];
+    for (let i = 0; i < styleSheet.cssRules.length; i++) {
+        let rule = styleSheet.cssRules[i];
         css += rule.cssText + "\n";
     }
     style.innerHTML = css;
     svg.appendChild(style);
-    // best piece of code i have written in 2019
     saveSVG(filename, svg.outerHTML);
     style.remove();
 }
