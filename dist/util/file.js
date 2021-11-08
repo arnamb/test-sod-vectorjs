@@ -63,10 +63,10 @@ function download(id, filename) {
         const tempStyleSheet = document.styleSheets[i];
         if (
           tempStyleSheet !== null &&
-          tempStyleSheet.href === null &&
+          tempStyleSheet.href !== null &&
           tempStyleSheet.cssRules !== null
         ) {
-          if (tempStyleSheet.cssRules[0]) {
+          if (tempStyleSheet.cssRules[0] && tempStyleSheet.cssRules[0] !== null) {
             if (
               tempStyleSheet.cssRules[0].cssText.toLowerCase().includes('hatch')
             ) {
