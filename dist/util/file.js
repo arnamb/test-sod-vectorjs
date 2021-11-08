@@ -64,6 +64,7 @@ function download(id, filename) {
         if (
           tempStyleSheet !== null &&
           tempStyleSheet.href !== null &&
+          tempStyleSheet.href !== 'https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;500;600;700&display=swap' &&
           tempStyleSheet.cssRules !== null
         ) {
           if (tempStyleSheet.cssRules[0] && tempStyleSheet.cssRules[0] !== null) {
