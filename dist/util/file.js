@@ -56,27 +56,28 @@ exports.getScriptName = getScriptName;
 /**
 * Downloads the current drawing as an svg file.
 */
-function download(id, filename, stylesheet) {
-    return File.getURL(stylesheet).then((response) => {
-        // Add the styling into the css document
-        let svg = document.getElementById(id);
-        let style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
-        style.type = "text/css";
-        style.innerHTML = response.toString();
-        svg.prepend(style);
-        File.saveSVG(filename, svg.outerHTML);
-        style.remove();
-    });
-    // svg.appendChild(style);
-    // best piece of code i have written in 2019
-    // style.remove();
-}
-function processRule(rule) {
-    let result = "";
-    for (let key of rule.styleMap) {
-        console.log(key);
+function download(id, filename) {
+    let svg = document.getElementById(id).firstChild;
+    let styleSheet = null;
+    for (let i = 0; i < document.styleSheets.length; i++) {
+        // TODO: there is a better way to do this
+        if (document.styleSheets[i] != null && document.styleSheets[i].cssRules[0].cssText.toLowerCase().includes("hatch")) {
+            styleSheet = document.styleSheets[i];
+            break;
+        }
     }
-    return result;
+    let style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
+    style.type = "text/css";
+    let css = "";
+    for (let i = 0; i < styleSheet.rules.length; i++) {
+        let rule = styleSheet.rules[i];
+        css += rule.cssText + "\n";
+    }
+    style.innerHTML = css;
+    svg.appendChild(style);
+    // best piece of code i have written in 2019
+    saveSVG(filename, svg.outerHTML);
+    style.remove();
 }
 exports.download = download;
 function saveSVG(filename, data) {
