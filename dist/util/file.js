@@ -59,24 +59,13 @@ exports.getScriptName = getScriptName;
 function download(id, filename) {
     let svg = document.getElementById(id).firstChild;
     let styleSheet = null;
-    for (let i = 0; i < document.styleSheets.length; i += 1) {
-        const tempStyleSheet = document.styleSheets[i];
-        if (
-          tempStyleSheet !== null &&
-          tempStyleSheet.href !== null &&
-          tempStyleSheet.href !== 'https://fonts.googleapis.com/css2?family=Be+Vietnam:wght@400;500;600;700&display=swap' &&
-          tempStyleSheet.cssRules !== null
-        ) {
-          if (tempStyleSheet.cssRules[0] && tempStyleSheet.cssRules[0] !== null) {
-            if (
-              tempStyleSheet.cssRules[0].cssText.toLowerCase().includes('hatch')
-            ) {
-              styleSheet = document.styleSheets[i];
-              break;
-            }
-          }
+    for (let i = 0; i < document.styleSheets.length; i++) {
+        // TODO: there is a better way to do this
+        if (document.styleSheets[i] != null && document.styleSheets[i].cssRules[0].cssText.toLowerCase().includes("hatch")) {
+            styleSheet = document.styleSheets[i];
+            break;
         }
-      }
+    }
     let style = document.createElementNS('http://www.w3.org/2000/svg', 'style');
     style.type = "text/css";
     let css = "";
